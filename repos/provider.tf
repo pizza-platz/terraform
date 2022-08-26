@@ -1,10 +1,9 @@
 terraform {
-  cloud {
-    organization = "platz"
-
-    workspaces {
-      name = "repos"
-    }
+  backend "s3" {
+    profile = "default-admin"
+    bucket  = "platz-tf-state"
+    key     = "repos.tfstate"
+    region  = "us-east-1"
   }
 
   required_providers {
