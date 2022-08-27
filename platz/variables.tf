@@ -1,41 +1,16 @@
-variable "domain_name" {
-  description = "Domain name where Platz will be served from"
-  default     = "pizza.platz.io"
+variable "cluster_name" {
+  description = "EKS cluster name to install Platz on"
+  default     = "hawaiian"
 }
 
 variable "chart_version" {
   description = "Platz chart version to install"
-  type        = string
-}
-
-variable "backend_version_override" {
-  description = "Specify a backend image tag to override the value in the chart"
-  default     = null
-}
-
-variable "frontend_version_override" {
-  description = "Specify a frontend image tag to override the value in the chart"
-  default     = null
+  default     = "0.4.6-1"
 }
 
 variable "name_prefix" {
   description = "Prefix to use for named resources"
   default     = "pizza-platz"
-}
-
-variable "instance_type" {
-  description = "EC2 instance type to run on"
-  default     = "t3.micro"
-}
-
-variable "num_azs" {
-  description = "How many AZs to create the VPC and ASG in"
-  default     = 3
-}
-
-variable "vpc_cidr" {
-  description = "VPC address range"
-  default     = "10.0.0.0/16"
 }
 
 variable "admin_emails" {

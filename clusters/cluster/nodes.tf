@@ -13,6 +13,11 @@ resource "aws_eks_node_group" "default" {
   instance_types = ["t3.xlarge"]
   capacity_type  = "SPOT"
 
+  launch_template {
+    id      = aws_launch_template.default.id
+    version = "$Latest"
+  }
+
   lifecycle {
     create_before_destroy = true
     ignore_changes        = [scaling_config[0].desired_size]
@@ -48,4 +53,36 @@ resource "aws_iam_role_policy_attachment" "node-AmazonEKS_CNI_Policy" {
 resource "aws_iam_role_policy_attachment" "node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.node.name
+}
+
+resource "aws_launch_template" "default" {
+  name = "eks-default-node-group"
+
+  vpc_security_group_ids = [
+    aws_eks_cluster.this.vpc_config[0].cluster_security_group_id,
+    aws_security_group.nodes.id,
+  ]
+}
+
+resource "aws_security_group" "nodes" {
+  name   = "eks-${var.cluster_name}-nodes"
+  vpc_id = module.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "nodes_ingress" {
+  security_group_id = aws_security_group.nodes.id
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
+  self              = true
+}
+
+resource "aws_security_group_rule" "nodes_egress" {
+  security_group_id = aws_security_group.nodes.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
+  self              = true
 }
