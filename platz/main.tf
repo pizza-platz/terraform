@@ -17,6 +17,7 @@ module "platz" {
   chart_version    = var.chart_version
   use_chart_db     = false
   db_url_override  = local.db_url
+  admin_emails     = var.admin_emails
 
   ingress = {
     host       = data.terraform_remote_state.clusters.outputs.domain_name
