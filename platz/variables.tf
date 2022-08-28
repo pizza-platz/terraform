@@ -5,7 +5,7 @@ variable "cluster_name" {
 
 variable "chart_version" {
   description = "Platz chart version to install"
-  default     = "0.4.6-1"
+  default     = "v0.4.7-beta.1"
 }
 
 variable "name_prefix" {
