@@ -1,6 +1,8 @@
 variable "repos" {
   description = "ECR repos to create"
   default = [
+    "bank",
+    "bank-chart",
     "shop",
     "shop-chart",
   ]
