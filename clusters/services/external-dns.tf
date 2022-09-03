@@ -3,6 +3,10 @@ locals {
   external_dns_service_account = "external-dns"
 }
 
+data "aws_route53_zone" "this" {
+  name = var.route53_zone_name
+}
+
 resource "kubernetes_namespace" "external_dns" {
   metadata {
     name = local.external_dns_namespace
@@ -60,7 +64,7 @@ data "aws_iam_policy_document" "external_dns" {
       "route53:ChangeResourceRecordSets",
     ]
     resources = [
-      var.route53_zone_arn,
+      data.aws_route53_zone.this.arn,
     ]
   }
 

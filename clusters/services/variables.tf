@@ -18,11 +18,6 @@ variable "oidc_provider_arn" {
   type        = string
 }
 
-variable "route53_zone_arn" {
-  description = "Route53 zone ARN to run external-dns on"
-  type        = string
-}
-
 variable "route53_zone_name" {
   description = "DNS zone name for external-dns"
   type        = string
